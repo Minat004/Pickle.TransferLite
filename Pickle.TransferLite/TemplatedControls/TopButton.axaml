@@ -1,0 +1,53 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:templatedControls="clr-namespace:Pickle.TransferLite.TemplatedControls">
+    <Design.PreviewWith>
+        <StackPanel Width="400"
+                    Height="50"
+                    Orientation="Horizontal">
+            <templatedControls:TopButton Icon="{StaticResource Back}"/>
+            <templatedControls:TopButton Icon="{StaticResource Forward}"/>
+            <templatedControls:TopButton Icon="{StaticResource Copy}"/>
+            <templatedControls:TopButton Icon="{StaticResource Move}"/>
+            <templatedControls:TopButton Icon="{StaticResource Delete}"/>
+            <templatedControls:TopButton Icon="{StaticResource Rename}"/>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Style Selector="templatedControls|TopButton">
+        <!-- Set Defaults -->
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="Width" Value="50"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Width" Duration="0:0:0.1"/>
+            </Transitions>
+        </Setter>
+        <Setter Property="Color" Value="{DynamicResource LightGray}"></Setter>
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border CornerRadius="{TemplateBinding CornerRadius}" 
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Width}">
+                    <Path Stretch="Uniform"
+                          Fill="{TemplateBinding Color}"
+                          Data="{TemplateBinding Icon}"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <Style Selector="templatedControls|TopButton:pointerover">
+        <Setter Property="Color" Value="{StaticResource Blue}"/>
+        <Setter Property="Background" Value="{StaticResource LightLightBlue}"/>
+    </Style>
+    <Style Selector="templatedControls|TopButton:pressed">
+        <Setter Property="Background" Value="{StaticResource LightBlue}"/>
+        <Setter Property="Width" Value="48"/>
+    </Style>
+</Styles>

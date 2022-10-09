@@ -1,0 +1,78 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Pickle.TransferLite.ViewModels"
+             xmlns:converters="clr-namespace:Pickle.TransferLite.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Pickle.TransferLite.Views.DirectoryPanelView">
+
+	<Design.DataContext>
+		<vm:DirectoryPanelViewModel />
+	</Design.DataContext>
+	
+	<UserControl.Resources>
+		<converters:FileEntityToImageConverter x:Key="ToImageConverter"/>
+	</UserControl.Resources>
+
+	<Grid ColumnDefinitions="Auto,3*,*"
+	      RowDefinitions="Auto,*"
+	      Margin="5"
+	      ShowGridLines="False">
+
+		<Button Grid.Column="0"
+		        Grid.Row="0"
+		        Content="Back"
+		        HorizontalAlignment="Stretch"
+		        HorizontalContentAlignment="Center"
+		        Margin="0,0,5,5"
+		        Command="{Binding BackDirectory}" />
+
+		<TextBox Grid.Column="1"
+		         Grid.Row="0"
+		         Name="DirPathTextBox"
+		         Text="{Binding DirectoryPath}"
+		         Margin="5,0,5,5"
+		         Watermark="Path to files..." />
+
+		<TextBox Grid.Column="2"
+		         Grid.Row="0"
+		         Name="SearchTextBox"
+		         Watermark="Search..."
+		         Margin="5,0,0,5" />
+
+		<ListBox Grid.Column="0"
+		         Grid.Row="1"
+		         Grid.ColumnSpan="3"
+		         Name="DirectoriesAndFiles"
+		         Margin="0,5,0,0"
+		         Items="{Binding DirectoriesAndFiles}"
+		         SelectedItem="{Binding SelectedFileEntity}"
+		         SelectionMode="Multiple"
+		         Selection="{Binding Selection}">
+
+			<Interaction.Behaviors>
+				<EventTriggerBehavior EventName="DoubleTapped">
+					<InvokeCommandAction Command="{Binding OpenDirectory}"/>
+				</EventTriggerBehavior>
+			</Interaction.Behaviors>
+			
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Grid ColumnDefinitions="Auto, Auto"
+					      RowDefinitions="25">
+						<Image Grid.Column="0"
+						       VerticalAlignment="Center"
+						       Margin="0,0,4,0"
+						       Source="{Binding ., Converter={StaticResource ToImageConverter}}"/>
+						<TextBlock Grid.Column="1"
+						           VerticalAlignment="Center"
+						           Text="{Binding Name}" />
+					</Grid>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+	</Grid>
+
+</UserControl>

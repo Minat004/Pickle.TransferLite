@@ -1,0 +1,70 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Pickle.TransferLite.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Pickle.TransferLite.Views"
+        xmlns:templatedControls="clr-namespace:Pickle.TransferLite.TemplatedControls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="Pickle.TransferLite.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Transfer Lite"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    
+    <Window.Styles>
+        <StyleInclude Source="/TemplatedControls/TopButton.axaml"/>
+    </Window.Styles>
+
+    <Grid ColumnDefinitions="*,*"
+          RowDefinitions="Auto,*"
+          Margin="5"
+          ShowGridLines="False">
+        
+        <!-- Top Menu -->
+        <StackPanel Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    Margin="5">
+            
+            <templatedControls:TopButton Icon="{StaticResource Back}"
+                                         Command="{Binding BackCommand}"
+                                         HotKey="Back"/>
+            <templatedControls:TopButton Icon="{StaticResource Forward}"/>
+            <templatedControls:TopButton Icon="{StaticResource Copy}"
+                                         Command="{Binding CopyCommand}"/>
+            <templatedControls:TopButton Icon="{StaticResource Move}"
+                                         Command="{Binding MoveCommand}"/>
+            <templatedControls:TopButton Icon="{StaticResource Delete}"
+                                         Command="{Binding DeleteCommand}"/>
+            <templatedControls:TopButton Icon="{StaticResource Rename}"/>
+            
+        </StackPanel>
+        
+        <!-- Bottom side -->
+        <Grid Grid.Column="0"
+              Grid.Row="1"
+              Grid.ColumnSpan="2"
+              ColumnDefinitions="*,Auto,*"
+              ShowGridLines="False">
+            
+            <!-- Left Panel -->
+            <ui:DirectoryPanelView
+                Grid.Column="0"
+                Content="{Binding LeftPanel}" />
+
+            <!-- Right Panel -->
+            <ui:DirectoryPanelView
+                Grid.Column="2"
+                Content="{Binding RightPanel}" />
+            
+        </Grid>
+
+    </Grid>
+
+</Window>
