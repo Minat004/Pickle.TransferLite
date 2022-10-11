@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
-using Avalonia;
-using Avalonia.Controls;
+using System.Threading.Tasks;
 using Avalonia.Controls.Selection;
-using Avalonia.Media;
 using Pickle.TransferLite.Helper;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -16,7 +14,8 @@ public class MainWindowViewModel : ViewModelBase
 {
     public MainWindowViewModel()
     {
-        CopyCommand = ReactiveCommand.Create(Copy);
+        // CopyCommand = ReactiveCommand.Create(Copy);
+        CopyCommand = ReactiveCommand.CreateFromTask(CopyAsync);
         MoveCommand = ReactiveCommand.Create(Move);
         DeleteCommand = ReactiveCommand.Create(Delete);
         RenameCommand = ReactiveCommand.Create(Rename);
@@ -75,6 +74,17 @@ public class MainWindowViewModel : ViewModelBase
         } else if (RightPanel.IsSelected)
         {
             CopyFileEntity(RightPanel, LeftPanel);
+        }
+    }
+    
+    private async Task CopyAsync()
+    {
+        if (LeftPanel.IsSelected)
+        {
+            await CopyFileEntityAsync(LeftPanel, RightPanel);
+        } else if (RightPanel.IsSelected)
+        {
+            await CopyFileEntityAsync(RightPanel, LeftPanel);
         }
     }
 
@@ -144,6 +154,45 @@ public class MainWindowViewModel : ViewModelBase
                     try
                     {
                         CopyDirectory(directory.FullName!, Path.Combine(destPanelViewModel.DirectoryPath!, directory.Name!));
+                        Generator.DirectoriesAndFiles(destPanelViewModel);
+                    }
+                    catch (IOException ioException)
+                    {
+                        Console.WriteLine(ioException);
+                        throw;
+                    }
+
+                    break;
+            }
+        }
+    }
+    
+    private static async Task CopyFileEntityAsync(DirectoryPanelViewModel sourcePanelViewModel, DirectoryPanelViewModel destPanelViewModel)
+    {
+        var selectedItems = new List<FileEntityViewModel>(sourcePanelViewModel.Selection.SelectedItems);
+        foreach (var selectedItem in selectedItems)
+        {
+            switch (selectedItem)
+            {
+                case FileViewModel file:
+                    try
+                    {
+                        await Task.Run(() =>
+                            File.Copy(file.FullName!, Path.Combine(destPanelViewModel.DirectoryPath!, file.Name!)));
+                        Generator.DirectoriesAndFiles(destPanelViewModel);
+                    }
+                    catch (IOException ioException)
+                    {
+                        Console.WriteLine(ioException);
+                        throw;
+                    }
+
+                    break;
+                case DirectoryViewModel directory:
+                    try
+                    {
+                        await Task.Run(() => CopyDirectory(directory.FullName!,
+                            Path.Combine(destPanelViewModel.DirectoryPath!, directory.Name!)));
                         Generator.DirectoriesAndFiles(destPanelViewModel);
                     }
                     catch (IOException ioException)
