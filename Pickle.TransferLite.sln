@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickle.TransferLite", "Pickle.TransferLite\Pickle.TransferLite.csproj", "{5AA6F9AF-E630-46C1-A1D7-D9638C9E3D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedResources", "SharedResources\SharedResources.csproj", "{A7AC567D-6869-4BF5-988F-F89C19933C8A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,9 +12,5 @@ Global
 		{5AA6F9AF-E630-46C1-A1D7-D9638C9E3D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AA6F9AF-E630-46C1-A1D7-D9638C9E3D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AA6F9AF-E630-46C1-A1D7-D9638C9E3D4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7AC567D-6869-4BF5-988F-F89C19933C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7AC567D-6869-4BF5-988F-F89C19933C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7AC567D-6869-4BF5-988F-F89C19933C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7AC567D-6869-4BF5-988F-F89C19933C8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
