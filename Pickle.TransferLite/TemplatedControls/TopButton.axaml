@@ -1,28 +1,46 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:templatedControls="clr-namespace:Pickle.TransferLite.TemplatedControls">
+        xmlns:ctrl="clr-namespace:Pickle.TransferLite.TemplatedControls">
     <Design.PreviewWith>
-        <StackPanel Width="400"
-                    Height="50"
-                    Orientation="Horizontal">
-            <templatedControls:TopButton Icon="{StaticResource Back}"/>
-            <templatedControls:TopButton Icon="{StaticResource Forward}"/>
-            <templatedControls:TopButton Icon="{StaticResource Copy}"/>
-            <templatedControls:TopButton Icon="{StaticResource Move}"/>
-            <templatedControls:TopButton Icon="{StaticResource Delete}"/>
-            <templatedControls:TopButton Icon="{StaticResource Rename}"/>
-        </StackPanel>
+        <Grid RowDefinitions="*,*">
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal">
+                <ctrl:TopButton Icon="{StaticResource Back}"/>
+                <ctrl:TopButton Icon="{StaticResource Forward}"/>
+                <ctrl:TopButton Icon="{StaticResource Copy}"/>
+                <ctrl:TopButton Icon="{StaticResource Move}"/>
+                <ctrl:TopButton Icon="{StaticResource Delete}"/>
+                <ctrl:TopButton Icon="{StaticResource Rename}"/>
+            </StackPanel>
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,*,*,*,*,*">
+                <ctrl:TopButton Grid.Column="0"
+                                             Icon="{StaticResource Back}"/>
+                <ctrl:TopButton Grid.Column="1"
+                                             Icon="{StaticResource Forward}"/>
+                <ctrl:TopButton Grid.Column="2"
+                                             Icon="{StaticResource Copy}"/>
+                <ctrl:TopButton Grid.Column="3"
+                                             Icon="{StaticResource Move}"/>
+                <ctrl:TopButton Grid.Column="4"
+                                             Icon="{StaticResource Delete}"/>
+                <ctrl:TopButton Grid.Column="5"
+                                             Icon="{StaticResource Rename}"/>
+            </Grid>
+        </Grid>
     </Design.PreviewWith>
 
-    <Style Selector="templatedControls|TopButton">
+    <Style Selector="ctrl|TopButton">
         <!-- Set Defaults -->
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="CornerRadius" Value="50"/>
         <Setter Property="Width" Value="50"/>
+        <Setter Property="Height" Value="50"/>
         <Setter Property="Transitions">
             <Transitions>
                 <DoubleTransition Property="Width" Duration="0:0:0.1"/>
+                <DoubleTransition Property="Height" Duration="0:0:0.1"/>
             </Transitions>
         </Setter>
         <Setter Property="Color" Value="{DynamicResource LightGray}"></Setter>
@@ -33,7 +51,7 @@
                         Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
                         Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Width}">
+                        Height="{TemplateBinding Height}">
                     <Path Stretch="Uniform"
                           Fill="{TemplateBinding Color}"
                           Data="{TemplateBinding Icon}"/>
@@ -42,12 +60,13 @@
         </Setter>
     </Style>
     
-    <Style Selector="templatedControls|TopButton:pointerover">
+    <Style Selector="ctrl|TopButton:pointerover">
         <Setter Property="Color" Value="{StaticResource Blue}"/>
         <Setter Property="Background" Value="{StaticResource LightLightBlue}"/>
     </Style>
-    <Style Selector="templatedControls|TopButton:pressed">
+    <Style Selector="ctrl|TopButton:pressed">
         <Setter Property="Background" Value="{StaticResource LightBlue}"/>
         <Setter Property="Width" Value="48"/>
+        <Setter Property="Height" Value="48"/>
     </Style>
 </Styles>
