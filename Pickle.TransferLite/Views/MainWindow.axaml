@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Pickle.TransferLite.Views"
-        xmlns:templatedControls="clr-namespace:Pickle.TransferLite.TemplatedControls"
+        xmlns:ctrl="clr-namespace:Pickle.TransferLite.TemplatedControls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="Pickle.TransferLite.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -21,30 +21,36 @@
     </Window.Styles>
 
     <Grid ColumnDefinitions="*,*"
-          RowDefinitions="Auto,*"
+          RowDefinitions="Auto,*,Auto"
           Margin="5"
           ShowGridLines="False">
         
         <!-- Top Menu -->
-        <StackPanel Grid.Column="0"
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    Orientation="Horizontal"
-                    Margin="5">
-            
-            <templatedControls:TopButton Icon="{StaticResource Back}"
+        <Grid Grid.Column="0" 
+              Grid.Row="0"
+              Grid.ColumnSpan="2"
+              ColumnDefinitions="50,50,50,50,50,50">
+            <ctrl:TopButton Grid.Column="0"
+                                         Icon="{StaticResource Back}"
                                          Command="{Binding BackCommand}"
                                          HotKey="Back"/>
-            <templatedControls:TopButton Icon="{StaticResource Forward}"/>
-            <templatedControls:TopButton Icon="{StaticResource Copy}"
+            <ctrl:TopButton Grid.Column="1"
+                                         Icon="{StaticResource Forward}"
+                                         Command="{Binding BackCommand}"/>
+            <ctrl:TopButton Grid.Column="2"
+                                         Icon="{StaticResource Copy}"
                                          Command="{Binding CopyCommand}"/>
-            <templatedControls:TopButton Icon="{StaticResource Move}"
+            <ctrl:TopButton Grid.Column="3"
+                                         Icon="{StaticResource Move}"
                                          Command="{Binding MoveCommand}"/>
-            <templatedControls:TopButton Icon="{StaticResource Delete}"
-                                         Command="{Binding DeleteCommand}"/>
-            <templatedControls:TopButton Icon="{StaticResource Rename}"/>
-            
-        </StackPanel>
+            <ctrl:TopButton Grid.Column="4"
+                                         Icon="{StaticResource Delete}"
+                                         Command="{Binding DeleteCommand}"
+                                         HotKey="Delete"/>
+            <ctrl:TopButton Grid.Column="5"
+                                         Icon="{StaticResource Rename}"
+                                         Command="{Binding RenameCommand}"/>
+        </Grid>
         
         <!-- Bottom side -->
         <Grid Grid.Column="0"
@@ -64,7 +70,34 @@
                 Content="{Binding RightPanel}" />
             
         </Grid>
-
+        
+        <!-- Download Bar (Show / Hide) -->
+        <Grid Grid.Column="0"
+              Grid.Row="2"
+              Grid.ColumnSpan="2"
+              Height="80"
+              Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <Border Background="Transparent"
+                        BorderThickness="2"
+                        BorderBrush="{StaticResource LightGray}"
+                        CornerRadius="10"
+                        Width="200"
+                        Margin="0,0,5,0"
+                        Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Size}"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,5"/>
+                        <ProgressBar Minimum="0"
+                                     Maximum="100"
+                                     Value="{Binding ProgressValue}"
+                                     ShowProgressText="True"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+        
     </Grid>
 
 </Window>
