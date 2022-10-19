@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using Avalonia.Controls.Selection;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Pickle.TransferLite.Helper;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -54,20 +56,19 @@ public class DirectoryPanelViewModel : ViewModelBase
         }
     }
 
-    private static void SelectionChanged(object? sender, SelectionModelSelectionChangedEventArgs<FileEntityViewModel> e)
+    private void SelectionChanged(object? sender, SelectionModelSelectionChangedEventArgs<FileEntityViewModel> e)
     {
     }
 
     private void Open(FileEntityViewModel? fileEntity)
     {
-        if (fileEntity is DirectoryViewModel directoryViewModel)
-        {
-            DirectoryPath = directoryViewModel.FullName;
+        if (fileEntity is not DirectoryViewModel directoryViewModel) return;
+        
+        DirectoryPath = directoryViewModel.FullName;
 
-            DirectoryStack.Push(DirectoryPath!);
+        DirectoryStack.Push(DirectoryPath!);
 
-            Generator.DirectoriesAndFiles(this);
-        }
+        Generator.DirectoriesAndFiles(this);
     }
 
     private void Back()

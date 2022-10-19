@@ -6,9 +6,9 @@
              xmlns:converters="clr-namespace:Pickle.TransferLite.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Pickle.TransferLite.Views.DirectoryPanelView">
-
+	
 	<Design.DataContext>
-		<vm:DirectoryPanelViewModel />
+		<vm:DirectoryPanelViewModel/>
 	</Design.DataContext>
 	
 	<UserControl.Resources>
