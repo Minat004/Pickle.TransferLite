@@ -29,6 +29,8 @@ public class MainWindowViewModel : ViewModelBase
 
     public DirectoryPanelViewModel RightPanel { get; set; } = new();
 
+    [Reactive] public decimal Size { get; set; }
+
     [Reactive] public ReactiveCommand<Unit, Unit> CopyCommand { get; set; }
 
     [Reactive] public ReactiveCommand<Unit, Unit> MoveCommand { get; set; }
@@ -110,10 +112,32 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private void Rename()
+    private async void Rename()
     {
+        if (!LeftPanel.IsSelected || LeftPanel.Selection.SelectedItem is not FileViewModel) return;
 
+        var fileSize = 0M;
+        Size = 0M;
+        foreach (var file in LeftPanel.Selection.SelectedItems)
+        {
+            Size += Math.Round(file.Size / 1024 / 1024, 2);
+        }
+
+        foreach (var file in LeftPanel.Selection.SelectedItems)
+        {
+            fileSize += Math.Round(file.Size / 1024 / 1024, 2);
+            ProgressValue = (int)Math.Round(100 * fileSize / Size);
+            await Task.Delay(1000);
+        }
+        
+        // for (var i = 0; i <= Size; i++)
+        // {
+        //     ProgressValue = Math.Round(100 * i / Size);
+        //     await Task.Delay(1000);
+        // }
     }
+
+    [Reactive] public int ProgressValue { get; set; }
 
     private static void BackDirectory(DirectoryPanelViewModel panelViewModel)
     {
@@ -179,26 +203,23 @@ public class MainWindowViewModel : ViewModelBase
                     {
                         await Task.Run(() =>
                             File.Copy(file.FullName!, Path.Combine(destPanelViewModel.DirectoryPath!, file.Name!)));
-                        Generator.DirectoriesAndFiles(destPanelViewModel);
+                        destPanelViewModel.DirectoriesAndFiles.Add(file);
                     }
                     catch (IOException ioException)
                     {
                         Console.WriteLine(ioException);
-                        throw;
                     }
 
                     break;
                 case DirectoryViewModel directory:
                     try
                     {
-                        await Task.Run(() => CopyDirectory(directory.FullName!,
-                            Path.Combine(destPanelViewModel.DirectoryPath!, directory.Name!)));
-                        Generator.DirectoriesAndFiles(destPanelViewModel);
+                        await Task.Run(() => CopyDirectoryAsync(directory.FullName!,
+                            Path.Combine(destPanelViewModel.DirectoryPath!, directory.Name!), destPanelViewModel));
                     }
                     catch (IOException ioException)
                     {
                         Console.WriteLine(ioException);
-                        throw;
                     }
 
                     break;
@@ -256,7 +277,8 @@ public class MainWindowViewModel : ViewModelBase
                     try
                     {
                         File.Delete(file.FullName!);
-                        Generator.DirectoriesAndFiles(panelViewModel);
+                        // Generator.DirectoriesAndFiles(panelViewModel);
+                        panelViewModel.DirectoriesAndFiles.Remove(file);
                     }
                     catch (IOException ioException)
                     {
@@ -269,7 +291,8 @@ public class MainWindowViewModel : ViewModelBase
                     try
                     {
                         Directory.Delete(directory.FullName!, true);
-                        Generator.DirectoriesAndFiles(panelViewModel);
+                        // Generator.DirectoriesAndFiles(panelViewModel);
+                        panelViewModel.DirectoriesAndFiles.Remove(directory);
                     }
                     catch (IOException ioException)
                     {
@@ -302,4 +325,30 @@ public class MainWindowViewModel : ViewModelBase
             CopyDirectory(directory, Path.Combine(dest, dirName));
         }
     }
+    
+    private static async Task CopyDirectoryAsync(string source, string dest, DirectoryPanelViewModel destPanelViewModel)
+    {
+        if (!Directory.Exists(dest))
+        {
+            await Task.Run(() => Directory.CreateDirectory(dest));
+            destPanelViewModel.DirectoriesAndFiles.Add(new DirectoryViewModel(dest));
+        }
+        
+        foreach (var file in Directory.GetFiles(source))
+        {
+            var fileName = Path.Combine(dest, Path.GetFileName(file));
+            await Task.Run(() => File.Copy(file, fileName));
+        }
+
+        foreach (var directory in Directory.GetDirectories(source))
+        {
+            var dirName = Path.GetFileName(directory);
+            if (!Directory.Exists(Path.Combine(dest, dirName)))
+            {
+                await Task.Run(() => Directory.CreateDirectory(Path.Combine(dest, dirName)));
+            }
+            await CopyDirectoryAsync(directory, Path.Combine(dest, dirName), destPanelViewModel);
+        }
+    }
+
 }
