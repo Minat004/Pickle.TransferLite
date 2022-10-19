@@ -1,18 +1,14 @@
 ﻿using System.IO;
-using Avalonia;
-using Avalonia.Media;
 
 namespace Pickle.TransferLite.ViewModels;
 
 public sealed class DirectoryViewModel : FileEntityViewModel
 {
-    public DirectoryViewModel(string? directoryName) : base(directoryName)
+    public DirectoryViewModel(string? fullName) : base(fullName)
     {
-        FullName = directoryName;
     }
 
-    public DirectoryViewModel(DirectoryInfo directoryInfo) : base(directoryInfo.Name)
+    public DirectoryViewModel(DirectoryInfo directoryInfo) : base(directoryInfo.FullName)
     {
-        FullName = directoryInfo.FullName;
     }
 }

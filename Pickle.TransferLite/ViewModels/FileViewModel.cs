@@ -1,17 +1,15 @@
 ﻿using System.IO;
-using Avalonia;
-using Avalonia.Media;
 
 namespace Pickle.TransferLite.ViewModels;
 
 public sealed class FileViewModel : FileEntityViewModel
 {
-    public FileViewModel(string? name) : base(name)
+    public FileViewModel(string? fullName) : base(fullName)
     {
     }
 
-    public FileViewModel(FileInfo fileInfo) : base(fileInfo.Name)
+    public FileViewModel(FileInfo fileInfo) : base(fileInfo.FullName)
     {
-        FullName = fileInfo.FullName;
+        Size = fileInfo.Length;
     }
 }
