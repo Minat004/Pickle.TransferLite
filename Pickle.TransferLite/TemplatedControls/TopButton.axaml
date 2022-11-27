@@ -1,48 +1,43 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ctrl="clr-namespace:Pickle.TransferLite.TemplatedControls">
+    
     <Design.PreviewWith>
         <Grid RowDefinitions="*,*">
-            <StackPanel Grid.Row="0"
-                        Orientation="Horizontal">
-                <ctrl:TopButton Icon="{StaticResource Back}"/>
-                <ctrl:TopButton Icon="{StaticResource Forward}"/>
-                <ctrl:TopButton Icon="{StaticResource Copy}"/>
-                <ctrl:TopButton Icon="{StaticResource Move}"/>
-                <ctrl:TopButton Icon="{StaticResource Delete}"/>
-                <ctrl:TopButton Icon="{StaticResource Rename}"/>
-            </StackPanel>
-            <Grid Grid.Row="1"
-                  ColumnDefinitions="*,*,*,*,*,*">
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,*,*,*,*,*,*,*">
                 <ctrl:TopButton Grid.Column="0"
-                                             Icon="{StaticResource Back}"/>
+                                Icon="{StaticResource Back}"/>
                 <ctrl:TopButton Grid.Column="1"
-                                             Icon="{StaticResource Forward}"/>
+                                Icon="{StaticResource Forward}"/>
                 <ctrl:TopButton Grid.Column="2"
-                                             Icon="{StaticResource Copy}"/>
+                                Icon="{StaticResource Copy}"/>
                 <ctrl:TopButton Grid.Column="3"
-                                             Icon="{StaticResource Move}"/>
+                                Icon="{StaticResource Move}"/>
                 <ctrl:TopButton Grid.Column="4"
-                                             Icon="{StaticResource Delete}"/>
+                                Icon="{StaticResource Delete}"/>
                 <ctrl:TopButton Grid.Column="5"
-                                             Icon="{StaticResource Rename}"/>
+                                Icon="{StaticResource Rename}"/>
+                <ctrl:TopButton Grid.Column="6"
+                                Icon="{StaticResource Download}"/>
             </Grid>
         </Grid>
     </Design.PreviewWith>
 
     <Style Selector="ctrl|TopButton">
-        <!-- Set Defaults -->
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="CornerRadius" Value="50"/>
         <Setter Property="Width" Value="50"/>
         <Setter Property="Height" Value="50"/>
+ 
         <Setter Property="Transitions">
             <Transitions>
-                <DoubleTransition Property="Width" Duration="0:0:0.1"/>
-                <DoubleTransition Property="Height" Duration="0:0:0.1"/>
+                <DoubleTransition Property="Width" Duration="0:0:0.02"/>
+                <DoubleTransition Property="Height" Duration="0:0:0.02"/>
             </Transitions>
         </Setter>
+        
         <Setter Property="Color" Value="{DynamicResource LightGray}"></Setter>
         
         <Setter Property="Template">
@@ -66,7 +61,7 @@
     </Style>
     <Style Selector="ctrl|TopButton:pressed">
         <Setter Property="Background" Value="{StaticResource LightBlue}"/>
-        <Setter Property="Width" Value="48"/>
-        <Setter Property="Height" Value="48"/>
+        <Setter Property="Width" Value="47"/>
+        <Setter Property="Height" Value="47"/>
     </Style>
 </Styles>

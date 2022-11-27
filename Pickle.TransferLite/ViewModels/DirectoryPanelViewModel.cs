@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using Avalonia.Controls.Selection;
+using DynamicData.Binding;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Pickle.TransferLite.Helper;
 using ReactiveUI;
@@ -36,8 +37,6 @@ public class DirectoryPanelViewModel : ViewModelBase
     public Stack<string> DirectoryStack { get; } = new();
 
     public SelectionModel<FileEntityViewModel> Selection { get; set; } = new();
-
-    #region Methods
 
     public void SelectFirst() => Selection.Select(0);
 
@@ -85,5 +84,4 @@ public class DirectoryPanelViewModel : ViewModelBase
 
         Generator.DirectoriesAndFiles(this);
     }
-    #endregion
 }

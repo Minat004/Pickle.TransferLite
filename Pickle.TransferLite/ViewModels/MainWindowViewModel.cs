@@ -4,6 +4,7 @@ using System.IO;
 using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia.Controls.Selection;
+using Microsoft.CodeAnalysis.CSharp;
 using Pickle.TransferLite.Helper;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -20,9 +21,19 @@ public class MainWindowViewModel : ViewModelBase
         DeleteCommand = ReactiveCommand.Create(Delete);
         RenameCommand = ReactiveCommand.Create(Rename);
         BackCommand = ReactiveCommand.Create(Back);
+        ProgressBarCommand = ReactiveCommand.Create(ShowDownload);
 
         RightPanel.Selection.SelectionChanged += RightPanelOnSelectionChanged;
         LeftPanel.Selection.SelectionChanged += LeftPanelOnSelectionChanged;
+    }
+
+    private async void ShowDownload()
+    {
+        for (var i = 1; i <= 100; i++)
+        {
+            CircleValue = i;
+            await Task.Delay(100);
+        }
     }
 
     public DirectoryPanelViewModel LeftPanel { get; set; } = new();
@@ -30,6 +41,12 @@ public class MainWindowViewModel : ViewModelBase
     public DirectoryPanelViewModel RightPanel { get; set; } = new();
 
     [Reactive] public decimal Size { get; set; }
+
+    [Reactive] public double CircleValue { get; set; } = 1D;
+    
+    [Reactive] public double MinValue { get; set; } = 0D;
+    
+    [Reactive] public double MaxValue { get; set; } = 100D;
 
     [Reactive] public ReactiveCommand<Unit, Unit> CopyCommand { get; set; }
 
@@ -40,6 +57,8 @@ public class MainWindowViewModel : ViewModelBase
     [Reactive] public ReactiveCommand<Unit, Unit> BackCommand { get; set; }
 
     [Reactive] public ReactiveCommand<Unit, Unit> RenameCommand { get; set; }
+    
+    [Reactive] public ReactiveCommand<Unit, Unit> ProgressBarCommand { get; set; }
 
     private void LeftPanelOnSelectionChanged(object? sender, SelectionModelSelectionChangedEventArgs<FileEntityViewModel> e)
     {

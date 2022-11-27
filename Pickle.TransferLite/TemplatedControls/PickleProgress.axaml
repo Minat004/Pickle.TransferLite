@@ -1,0 +1,39 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tmpl="using:Pickle.TransferLite.TemplatedControls"
+        xmlns:converters="clr-namespace:Pickle.TransferLite.Converters">
+    
+    <Design.PreviewWith>
+        <tmpl:PickleProgress Width="50"
+                             Height="50"
+                             Value="45"/>
+    </Design.PreviewWith>
+    
+    <Styles.Resources>
+        <converters:InterestToAngle x:Key="ToAngle"/>
+        <converters:DecimalToInterestString x:Key="ToString"/>
+    </Styles.Resources>
+
+    <Style Selector="tmpl|PickleProgress">
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Arc StartAngle="-90"
+                         SweepAngle="{TemplateBinding Value, Converter={StaticResource ToAngle}}"
+                         Stroke="{StaticResource Blue}"
+                         StrokeThickness="4"
+                         StrokeLineCap="Square"
+                         Stretch="None"/>
+                    <TextBlock Text="{TemplateBinding Value, Converter={StaticResource ToString}}"
+                               IsVisible="True"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        
+    </Style>
+</Styles>

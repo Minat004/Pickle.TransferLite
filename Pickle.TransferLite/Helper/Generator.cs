@@ -29,7 +29,7 @@ internal static class Generator
         
         panelViewModel.SelectFirst();
     }
-    
+
     internal static void LocalDrives(DirectoryPanelViewModel panelViewModel)
     {
         panelViewModel.DirectoriesAndFiles.Clear();

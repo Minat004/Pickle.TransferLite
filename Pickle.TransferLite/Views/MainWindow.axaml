@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Pickle.TransferLite.Views"
-        xmlns:ctrl="clr-namespace:Pickle.TransferLite.TemplatedControls"
+        xmlns:tmpl="clr-namespace:Pickle.TransferLite.TemplatedControls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="Pickle.TransferLite.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -18,6 +18,7 @@
     
     <Window.Styles>
         <StyleInclude Source="/TemplatedControls/TopButton.axaml"/>
+        <StyleInclude Source="/TemplatedControls/PickleProgress.axaml"/>
     </Window.Styles>
 
     <Grid ColumnDefinitions="*,*"
@@ -29,27 +30,30 @@
         <Grid Grid.Column="0" 
               Grid.Row="0"
               Grid.ColumnSpan="2"
-              ColumnDefinitions="50,50,50,50,50,50">
-            <ctrl:TopButton Grid.Column="0"
-                                         Icon="{StaticResource Back}"
-                                         Command="{Binding BackCommand}"
-                                         HotKey="Back"/>
-            <ctrl:TopButton Grid.Column="1"
-                                         Icon="{StaticResource Forward}"
-                                         Command="{Binding BackCommand}"/>
-            <ctrl:TopButton Grid.Column="2"
-                                         Icon="{StaticResource Copy}"
-                                         Command="{Binding CopyCommand}"/>
-            <ctrl:TopButton Grid.Column="3"
-                                         Icon="{StaticResource Move}"
-                                         Command="{Binding MoveCommand}"/>
-            <ctrl:TopButton Grid.Column="4"
-                                         Icon="{StaticResource Delete}"
-                                         Command="{Binding DeleteCommand}"
-                                         HotKey="Delete"/>
-            <ctrl:TopButton Grid.Column="5"
-                                         Icon="{StaticResource Rename}"
-                                         Command="{Binding RenameCommand}"/>
+              ColumnDefinitions="50,50,50,50,50,50,50">
+            <tmpl:TopButton Grid.Column="0"
+                            Icon="{StaticResource Back}"
+                            Command="{Binding BackCommand}"
+                            HotKey="Back"/>
+            <tmpl:TopButton Grid.Column="1"
+                            Icon="{StaticResource Forward}"
+                            Command="{Binding BackCommand}"/>
+            <tmpl:TopButton Grid.Column="2"
+                            Icon="{StaticResource Copy}"
+                            Command="{Binding CopyCommand}"/>
+            <tmpl:TopButton Grid.Column="3"
+                            Icon="{StaticResource Move}"
+                            Command="{Binding MoveCommand}"/>
+            <tmpl:TopButton Grid.Column="4"
+                            Icon="{StaticResource Delete}"
+                            Command="{Binding DeleteCommand}"
+                            HotKey="Delete"/>
+            <tmpl:TopButton Grid.Column="5"
+                            Icon="{StaticResource Rename}"
+                            Command="{Binding RenameCommand}"/>
+            <tmpl:TopButton Grid.Column="6"
+                            Icon="{StaticResource Download}"
+                            Command="{Binding ProgressBarCommand}"/>
         </Grid>
         
         <!-- Bottom side -->
@@ -91,9 +95,23 @@
                                    Margin="0,5"/>
                         <ProgressBar Minimum="0"
                                      Maximum="100"
-                                     Value="{Binding ProgressValue}"
-                                     ShowProgressText="True"/>
+                                     Value="{Binding CircleValue}"
+                                     ShowProgressText="True"
+                                     IsIndeterminate="False"/>
                     </StackPanel>
+                </Border>
+                <Border Background="Transparent"
+                        BorderThickness="2"
+                        BorderBrush="{StaticResource LightGray}"
+                        CornerRadius="10"
+                        Width="200"
+                        Margin="0,0,5,0"
+                        Padding="0">
+                    <tmpl:PickleProgress Width="60"
+                                         Height="60"
+                                         Value="{Binding CircleValue}"
+                                         HorizontalAlignment="Left"
+                                         Margin="10,0,0,0"/>
                 </Border>
             </StackPanel>
         </Grid>
